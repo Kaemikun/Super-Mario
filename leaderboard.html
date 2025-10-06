@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Leaderboard</title>
+  <style>
+    /* Premium gradient background */
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1d2b64, #f8cdda);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 20px;
+      padding: 40px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2.5rem;
+      color: #f8cdda;
+      letter-spacing: 2px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    th {
+      background-color: rgba(255,255,255,0.1);
+      font-size: 1.1rem;
+    }
+
+    tr:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn {
+      background: #f8cdda;
+      color: #1d2b64;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background: #ffb6b9;
+      transform: scale(1.05);
+    }
+
+    .actions {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .no-records {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🏆 Leaderboard</h1>
+    <table id="leaderboard">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Name</th>
+          <th>Score</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboard-body">
+        <!-- Dynamic content -->
+      </tbody>
+    </table>
+    <p class="no-records" id="no-records">No records yet!</p>
+    <div class="actions">
+      <button class="btn" onclick="clearLeaderboard()">Clear All</button>
+      <button class="btn" onclick="window.location.href='index.html'">Back to Game</button>
+    </div>
+  </div>
+
+  <script>
+    const leaderboardBody = document.getElementById('leaderboard-body');
+    const noRecords = document.getElementById('no-records');
+
+    // Fetch leaderboard from localStorage
+    let leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+
+    function renderLeaderboard() {
+      leaderboardBody.innerHTML = '';
+      if (leaderboard.length === 0) {
+        noRecords.style.display = 'block';
+        return;
+      }
+      noRecords.style.display = 'none';
+
+      leaderboard.sort((a, b) => b.score - a.score);
+
+      leaderboard.forEach((entry, index) => {
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${entry.name}</td>
+          <td>${entry.score}</td>
+          <td><button class="btn" onclick="deleteRecord(${index})">Delete</button></td>
+        `;
+        leaderboardBody.appendChild(row);
+      });
+    }
+
+    function deleteRecord(index) {
+      leaderboard.splice(index, 1);
+      localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+      renderLeaderboard();
+    }
+
+    function clearLeaderboard() {
+      if (confirm("Are you sure you want to clear all records?")) {
+        leaderboard = [];
+        localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+        renderLeaderboard();
+      }
+    }
+
+    renderLeaderboard();
+  </script>
+</body>
+</html>

@@ -1,10 +1,3 @@
-/* ================================
-   game.js — Simplified
-   - Player name modal
-   - Collision fixes + physics
-   - Coins, goombas, flagpole, leaderboard
-   ================================= */
-
 /* ------- DOM ------- */
 const $ = id => document.getElementById(id);
 const viewport     = $('viewport');
@@ -201,3 +194,4 @@ function askName(){
   player.x=clamp(player.x,0,WORLD_W-player.w);
   askName();
 })();
+

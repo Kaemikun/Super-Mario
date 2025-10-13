@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- NAVBAR -->
+  
   <nav class="nav">
     <div class="brand">Super Mario</div>
     <div class="links">
@@ -16,9 +16,7 @@
     </div>
   </nav>
 
-  <!-- GAME WRAPPER -->
   <main class="stage-wrap">
-    <!-- HUD -->
     <div class="hud">
       <div class="hud-item coin-hud">
         <span class="coin-icon"></span>
@@ -26,24 +24,19 @@
       </div>
     </div>
 
-    <!-- VISIBLE VIEWPORT -->
     <div id="viewport" class="viewport">
-      <!-- WORLD (moves inside the viewport) -->
       <div id="world" class="world">
-        <!-- Parallax background layers -->
         <div id="bg-hills" class="bg hills"></div>
         <div id="bg-clouds" class="bg clouds"></div>
 
-        <!-- Ground strip (also a collision surface) -->
         <div id="ground" class="ground"></div>
 
-        <!-- Pipes (solid) -->
         <div class="pipe" data-solid style="left: 600px; height: 120px;"></div>
         <div class="pipe" data-solid style="left: 1020px; height: 160px;"></div>
         <div class="pipe" data-solid style="left: 1450px; height: 100px;"></div>
         <div class="pipe" data-solid style="left: 1900px; height: 140px;"></div>
 
-        <!-- Coin trails -->
+
         <div class="coin" style="left: 640px; bottom: 260px"></div>
         <div class="coin" style="left: 680px; bottom: 280px"></div>
         <div class="coin" style="left: 720px; bottom: 260px"></div>
@@ -60,18 +53,18 @@
         <div class="coin" style="left: 2040px; bottom: 360px"></div>
         <div class="coin" style="left: 2080px; bottom: 340px"></div>
 
-        <!-- Goomba enemy (patrols) -->
+ 
         <div class="goomba" id="goomba1" data-min="1200" data-max="1380" style="left: 1300px;"></div>
 
-        <!-- Flagpole + sliding flag -->
+
         <div class="flagpole" id="flagpole" style="left: 2800px;">
           <div class="flag-banner" id="flagBanner"></div>
         </div>
 
-        <!-- Castle -->
+
         <div class="castle" style="left: 2920px;"></div>
 
-        <!-- Mario -->
+
         <div id="mario" class="mario"></div>
       </div>
     </div>
@@ -80,3 +73,4 @@
   <script src="game.js"></script>
 </body>
 </html>
+

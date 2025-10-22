@@ -3,6 +3,9 @@
 A simple **browser-based Super Mario clone** built using **JavaScript, HTML, and CSS**.  
 This game features a single level and includes a **leaderboard** that stores player scores using the browser's **localStorage**.
 
+👉 **Play Now:** [Super Mario on Netlify](https://supermarioeval.netlify.app/)
+
+
 ---
 
 ## 🎮 Features
@@ -26,7 +29,7 @@ This game features a single level and includes a **leaderboard** that stores pla
 
 ## 🚀 How to Play
 
-1. Open `index.html` in your browser.  
+1. Visit https://supermarioeval.netlify.app/  
 2. Enter your name when prompted.  
 3. Use the arrow keys to move and jump:  
    - **Left/Right** arrows to move  
@@ -47,8 +50,7 @@ This game features a single level and includes a **leaderboard** that stores pla
 
 4. README.md – Project documentation (this file).
 
-yaml
-Copy code
+
 
 ---
 
@@ -71,3 +73,4 @@ This project is open-source and available under the [MIT License](LICENSE).
 
 Created by Ansh Kaushal (Kaemikun) – feel free to reach out:  
 GitHub: [https://github.com/Kaemikun](https://github.com/Kaemikun)
+

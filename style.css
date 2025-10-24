@@ -1,4 +1,4 @@
-/* --- Reset & base --- */
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
 body {
@@ -8,7 +8,7 @@ body {
   overflow: hidden;
 }
 
-/* --- Navbar --- */
+
 .nav {
   height: 64px;
   display: flex;
@@ -28,26 +28,26 @@ body {
 .nav .links a:hover { background: rgba(255,255,255,.1); }
 .nav .links a.active { background: rgba(255,255,255,.18); color: #fff; }
 
-/* --- Stage wrapper --- */
+
 .stage-wrap {
   max-width: 1100px; margin: 18px auto; padding: 0 16px 24px;
 }
 
-/* --- HUD --- */
+
 .hud {
   position: relative;
   height: 0;
   width: 100%;
   display: flex;
-  justify-content: center; /* Centers HUD relative to game area */
-  pointer-events: none; /* Optional: HUD won't block clicks */
+  justify-content: center; 
+  pointer-events: none; 
 }
 
 .hud .hud-item {
   position: absolute;
-  top: 12px; /* Slightly increased for better spacing */
-  left: 50%; /* Center horizontally */
-  transform: translateX(-50%); /* Offset back to true center */
+  top: 12px; 
+  left: 50%; 
+  transform: translateX(-50%); 
   z-index: 20;
 
   display: flex;
@@ -72,7 +72,7 @@ body {
 }
 
 
-/* --- Viewport --- */
+
 .viewport {
   position: relative;
   width: 980px; height: 540px;
@@ -83,25 +83,25 @@ body {
   box-shadow: 0 30px 80px rgba(0,0,0,.35), inset 0 0 0 3px rgba(255,255,255,.08);
 }
 
-/* --- World --- */
+
 .world {
   position: absolute; left: 0; bottom: 0;
   width: 3200px; height: 100%;
   image-rendering: pixelated;
 }
 
-/* Pipes (scale image, keep aspect ratio, no stacking) */
+
 .pipe {
   position: absolute;
-  bottom: 80px; /* Sit on ground */
-  width: 70px; /* Adjust pipe width */
+  bottom: 80px; 
+  width: 70px; 
   background: url('images/pipe.png') no-repeat center bottom / 100% 100%;
-  /* ^ This stretches the pipe image to exactly match width+height */
+ 
   image-rendering: pixelated;
 }
 
 
-/* Coins */
+
 .coin {
   position: absolute; width: 28px; height: 28px;
   background: url('images/coin.png') center/cover no-repeat;
@@ -110,14 +110,14 @@ body {
 }
 @keyframes coinFloat { to { transform: translateY(-6px); } }
 
-/* Goomba */
+
 .goomba {
   position: absolute; bottom: 80px; width: 44px; height: 40px;
   background: url('images/goomba.png') center/cover no-repeat;
   image-rendering: pixelated;
 }
 
-/* Mario */
+
 .mario {
   position: absolute; bottom: 80px; left: 120px;
   width: 44px; height: 50px;
@@ -125,23 +125,24 @@ body {
   image-rendering: pixelated;
 }
 
-/* Pole + flag combined */
+
 .flagpole {
   position: absolute;
-  bottom: 80px; /* On ground */
-  right: 100px; /* Adjust level end */
-  width: 50px; /* Adjust for your asset */
-  height: 300px; /* Adjust for your asset */
+  bottom: 80px;
+  right: 100px; 
+  width: 50px; 
+  height: 300px;
   background: url('images/pole.png') no-repeat center bottom / contain;
   image-rendering: pixelated;
 }
 
 
-/* Castle */
+
 .castle {
   position: absolute; bottom: 80px; width: 170px; height: 160px;
   background: url('images/castle.png') center/contain no-repeat;
 }
 
-/* Utility */
+
 .hidden { display: none !important; }
+

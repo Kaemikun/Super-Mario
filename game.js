@@ -1,5 +1,3 @@
-/* ========= Super Mario Simple Game (Camera + Physics Fixed) ========= */
-
 const $ = id => document.getElementById(id);
 const world = $('world');
 const mario = $('mario');
@@ -22,13 +20,12 @@ let coins = 0;
 let playerName = localStorage.getItem('currentPlayerName') || null;
 let gameEnded = false;
 
-// --- Constants ---
 const GRAVITY = -0.9;
 const JUMP_VEL = 18;
 const MOVE_SPEED = 5;
 const GROUND_Y = 80;
-const VIEWPORT_WIDTH = 800; // approx width of visible area
-const WORLD_MAX_X = 3000;   // total width of world (adjust if needed)
+const VIEWPORT_WIDTH = 800; 
+const WORLD_MAX_X = 3000;   
 
 const keys = { left: false, right: false, up: false };
 document.addEventListener('keydown', e => {
@@ -60,7 +57,7 @@ function getSolids() {
   return [...document.querySelectorAll('[data-solid]')].map(rect);
 }
 
-// --- Goombas ---
+
 let goombas = [];
 function initGoombas() {
   goombas = [...document.querySelectorAll('.goomba')].map(el => {
@@ -89,7 +86,7 @@ function updateGoombas() {
     const pr = { x: player.x, y: player.y, w: player.w, h: player.h };
     if (!overlap(pr, g)) continue;
 
-    // Stomp from above
+
     if (player.vy < 0 && player.y + player.h > g.y + g.h * 0.6) {
       g.alive = false;
       g.el.style.visibility = 'hidden';
@@ -100,9 +97,9 @@ function updateGoombas() {
   }
 }
 
-// --- Physics ---
+
 function applyPhysics() {
-  // Horizontal
+
   if (keys.left) {
     player.vx = -MOVE_SPEED;
     player.facing = -1;
@@ -111,33 +108,33 @@ function applyPhysics() {
     player.facing = 1;
   } else player.vx = 0;
 
-  // Jump
+  
   if (keys.up && player.onGround) {
     player.vy = JUMP_VEL;
     player.onGround = false;
   }
 
-  // Apply gravity
+  
   player.vy += GRAVITY;
   player.x += player.vx;
   player.y += player.vy;
 
-  // Boundaries
+  
   if (player.x < 0) player.x = 0;
   if (player.x > WORLD_MAX_X - player.w) player.x = WORLD_MAX_X - player.w;
 
-  // Ground
+  
   if (player.y <= GROUND_Y) {
     player.y = GROUND_Y;
     player.vy = 0;
     player.onGround = true;
   }
 
-  // Collisions with pipes
+  
   for (const s of getSolids()) {
     if (!overlap(player, s)) continue;
 
-    // from top
+    
     if (player.vy <= 0 && player.y + player.h > s.y && player.y < s.y + s.h) {
       player.y = s.y + s.h;
       player.vy = 0;
@@ -150,7 +147,7 @@ function applyPhysics() {
   }
 }
 
-// --- Coins ---
+
 function updateCoins() {
   for (const el of document.querySelectorAll('.coin')) {
     if (el.dataset.taken) continue;
@@ -164,13 +161,13 @@ function updateCoins() {
   }
 }
 
-// --- Flag ---
+
 function checkFlag() {
   const f = rect(flagpole);
   if (overlap(player, f)) endGame(true);
 }
 
-// --- End Game ---
+
 function endGame(win) {
   if (gameEnded) return;
   gameEnded = true;
@@ -183,22 +180,22 @@ function endGame(win) {
   window.location.href = 'leaderboard.html';
 }
 
-// --- Render ---
+
 function render() {
-  // Move world (camera)
+  
   const cameraX = Math.min(
     Math.max(player.x - VIEWPORT_WIDTH / 2, 0),
     WORLD_MAX_X - VIEWPORT_WIDTH
   );
   world.style.transform = `translateX(${-cameraX}px)`;
 
-  // Update Mario
+  
   mario.style.left = player.x + 'px';
   mario.style.bottom = player.y + 'px';
   mario.style.transform = `scaleX(${player.facing})`;
 }
 
-// --- Loop ---
+
 function tick() {
   if (gameEnded) return;
   applyPhysics();
@@ -209,7 +206,7 @@ function tick() {
   requestAnimationFrame(tick);
 }
 
-// --- Name Modal ---
+
 function askName() {
   const overlay = document.createElement('div');
   overlay.style.cssText = `
@@ -239,9 +236,10 @@ function askName() {
   input.focus();
 }
 
-// --- Init ---
+
 (function init() {
   initGoombas();
   coinCountEl.textContent = '0';
   askName();
 })();
+

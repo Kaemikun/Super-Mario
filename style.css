@@ -1,4 +1,4 @@
-
+/* just a plus point the most difficult thing in this project was finding the pictures and removing the bg T-T */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
 body {
@@ -79,6 +79,7 @@ body {
   margin: 0 auto;
   border: 6px solid #18213f; border-radius: 18px;
   overflow: hidden;
+  /* it was pretty difficult to find this :( */
   background: url('https://media.istockphoto.com/id/1487813080/vector/super-mario-bros-classic-retro-game-background.jpg?s=170667a&w=0&k=20&c=y9YRdCIMr7cHP_4JjQoAPPs2nAj3AdvLAOVw2BbVt6g=') repeat-x center/cover;
   box-shadow: 0 30px 80px rgba(0,0,0,.35), inset 0 0 0 3px rgba(255,255,255,.08);
 }
@@ -105,11 +106,12 @@ body {
 .coin {
   position: absolute; width: 28px; height: 28px;
   background: url('images/coin.png') center/cover no-repeat;
+  
   image-rendering: pixelated;
   animation: coinFloat 1s ease-in-out infinite alternate;
 }
 @keyframes coinFloat { to { transform: translateY(-6px); } }
-
+/* i added this just for the coins to float it took me a while to figure it out */
 
 .goomba {
   position: absolute; bottom: 80px; width: 44px; height: 40px;
@@ -144,5 +146,6 @@ body {
 }
 
 
-.hidden { display: none !important; }
+.hidden { display: none !important; } 
+
 

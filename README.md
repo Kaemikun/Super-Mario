@@ -3,7 +3,7 @@
 A simple **browser-based Super Mario clone** built using **JavaScript, HTML, and CSS**.  
 This game features a single level and includes a **leaderboard** that stores player scores using the browser's **localStorage**.
 
-👉 **Play Now:** [Super Mario on Netlify](https://supermarioeval.netlify.app/)
+👉 **Play Now:** [Super Mario on Netlify](https://supermarioansh.netlify.app/)
 
 
 ---

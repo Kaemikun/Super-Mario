@@ -1,10 +1,10 @@
-const $ =id => document.getElementById(id); // just a short hand trick tht i learned while implementing its common in jquerry to do this :)
+const $ =id =>document.getElementById(id); // just a short hand trick tht i learned while implementing its common in jquerry to do this :)
 const world =$('world');
 const mario =$('mario');
 const flagpole=$('flagpole');
 const coinCountEl =$('coinCount');
 
-let player ={  //this here tells the initial postion nd the state of our mario(character) :D
+let player ={ //this here tells the initial postion nd the state of our mario(character) :D
   x: 120,
   y: 80,
   w: 44,
@@ -26,25 +26,72 @@ const GROUND_Y =80;
 const VIEWPORT_WIDTH=800; 
 const WORLD_MAX_X =3000;   
 
-const keys ={ left: false, right: false, up: false };
-document.addEventListener('keydown', e => {
+const keys ={left: false, right: false, up: false };
+document.addEventListener('keydown', e =>{
   if (['ArrowLeft', 'KeyA'].includes(e.code)) keys.left =true; //this e.code is for the array of keys we(players) gonna press it will just check if its pressed :)
   if (['ArrowRight', 'KeyD'].includes(e.code))keys.right =true;
   if (['ArrowUp', 'Space', 'KeyW'].includes(e.code)) keys.up =true;
 });
-document.addEventListener('keyup', e => {
+document.addEventListener('keyup', e =>{
   if (['ArrowLeft', 'KeyA'].includes(e.code)) keys.left =false;
   if(['ArrowRight', 'KeyD'].includes(e.code))keys.right =false;
   if (['ArrowUp', 'Space', 'KeyW'].includes(e.code)) keys.up =false;
 });
 
-function overlap(a, b) {
+function setupTouchControls(){
+  const controls =document.createElement('div');
+  controls.id ='touchControls';
+  controls.style.cssText =`
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 20px;
+    z-index: 1000;
+    user-select: none;
+    pointer-events: none;
+  `;
+  controls.innerHTML =`
+    <div style="display:flex;gap:15px;pointer-events:auto;">
+      <div id="leftBtn" style="width:80px;height:80px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;">⬅️</div>
+      <div id="rightBtn" style="width:80px;height:80px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;">➡️</div>
+    </div>
+    <div id="jumpBtn" style="width:80px;height:80px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;pointer-events:auto;">jump</div>
+  `;
+  document.body.appendChild(controls);
+
+  const left =document.getElementById('leftBtn');
+  const right =document.getElementById('rightBtn');
+  const jump =document.getElementById('jumpBtn');
+
+ 
+  const bindPress =(el, onPress, onRelease) =>{
+    el.addEventListener('touchstart', e =>{e.preventDefault(); onPress(); },{passive: false }); //this herew is to avoid scrolling while touching the screen :)
+    el.addEventListener('touchend', e =>{e.preventDefault(); onRelease(); },{passive: false });
+    el.addEventListener('mousedown', onPress);
+    el.addEventListener('mouseup', onRelease);
+    el.addEventListener('mouseleave', onRelease);
+  };
+
+  bindPress(left, () =>{keys.left =true; }, () =>{keys.left =false; });
+  bindPress(right, () =>{keys.right =true; }, () =>{keys.right =false; });
+  bindPress(jump, () =>{
+    if(player.onGround){
+      keys.up =true;
+      setTimeout(() => keys.up =false, 150);
+    }
+  },() =>{});
+}
+function overlap(a, b){
   return !(a.x + a.w< b.x || a.x >b.x + b.w || a.y + a.h <b.y || a.y >b.y + b.h);
 }
 
-function rect(el) {
+function rect(el){
   const s =window.getComputedStyle(el);  //this here give the css left bottom etc properties
-  return {
+  return{
     x: parseFloat(s.left), //if u wonder why we doin parseFloat well we have to convert out for eg "125px" to 125 int so ye.. 
     y: parseFloat(s.bottom),
     w: parseFloat(s.width),
@@ -52,16 +99,16 @@ function rect(el) {
   };
 }
 
-function getSolids() {
+function getSolids(){
   return [...document.querySelectorAll('[data-solid]')].map(rect); // here i did data destructuring nd used the dataset property of dom objects
 }
 
 
 let goombas =[];
-function initGoombas() {
-  goombas =[...document.querySelectorAll('.goomba')].map(el => {
+function initGoombas(){
+  goombas =[...document.querySelectorAll('.goomba')].map(el =>{
     const r =rect(el);
-    return {
+    return{
       el,
       x: r.x,
       y : r.y,
@@ -75,43 +122,43 @@ function initGoombas() {
   });
 }
 
-function updateGoombas() {
-  for (const g of goombas) {
+function updateGoombas(){
+  for (const g of goombas){
     if (!g.alive) continue;
     g.x +=g.vx;
     if (g.x <=g.minX || g.x + g.w >=g.maxX) g.vx *=-1;
     g.el.style.left =g.x +'px';
 
-    const pr ={ x: player.x, y: player.y, w: player.w, h: player.h };
+    const pr ={x: player.x, y: player.y, w: player.w, h: player.h };
     if(!overlap(pr, g)) continue;
 
 
-    if (player.vy <0 && player.y+player.h >g.y+g.h*0.6) {
+    if (player.vy <0 && player.y+player.h >g.y+g.h*0.6){
       g.alive =false;
       g.el.style.visibility ='hidden';
       player.vy =JUMP_VEL *0.6;
     } 
-    else {
+    else{
       endGame(false);
     }
   }
 }
 
 
-function applyPhysics() {
+function applyPhysics(){
 
-  if (keys.left) {
+  if (keys.left){
     player.vx =-MOVE_SPEED;
     player.facing =-1;
   } 
-  else if (keys.right) {
+  else if (keys.right){
     player.vx =MOVE_SPEED;
     player.facing =1;
   } 
   else player.vx =0;
 
   
-  if (keys.up && player.onGround) {
+  if (keys.up && player.onGround){
     player.vy =JUMP_VEL;
     player.onGround =false;
   }
@@ -126,37 +173,37 @@ function applyPhysics() {
   if (player.x >WORLD_MAX_X -player.w) player.x =WORLD_MAX_X -player.w;
 
   
-  if (player.y <=GROUND_Y) {
+  if (player.y <=GROUND_Y){
     player.y =GROUND_Y;
     player.vy =0;
     player.onGround =true;
   }
 
   
-  for (const s of getSolids()) {
+  for (const s of getSolids()){
     if (!overlap(player, s)) continue;
 
     
-    if (player.vy <=0 && player.y + player.h > s.y && player.y < s.y + s.h) {
+    if (player.vy <=0 && player.y + player.h > s.y && player.y < s.y + s.h){
       player.y =s.y + s.h;
       player.vy =0;
       player.onGround =true;
     } 
-    else if (player.vx > 0) {
+    else if (player.vx > 0){
       player.x =s.x - player.w;
     } 
-    else if (player.vx < 0) {
+    else if (player.vx < 0){
       player.x =s.x + s.w;
     }
   }
 }
 
 
-function updateCoins() {
-  for (const el of document.querySelectorAll('.coin')) {
+function updateCoins(){
+  for (const el of document.querySelectorAll('.coin')){
     if (el.dataset.taken) continue;
     const c =rect(el);
-    if (overlap(player, c)) {
+    if (overlap(player, c)){
       el.dataset.taken =1;
       el.style.visibility ='hidden';
       coins++;
@@ -166,27 +213,27 @@ function updateCoins() {
 }
 
 
-function checkFlag() {
+function checkFlag(){
   const f =rect(flagpole);
   if (overlap(player, f)) endGame(true);
 }
 
 
-function endGame(win) {
+function endGame(win){
   if (gameEnded) return;
   gameEnded =true;
 
   const lb =JSON.parse(localStorage.getItem('leaderboard') || '[]');
   //this makes sure tht only highest scores will be displayed by each user ;)
   const existing =lb.find(entry => entry.name ===playerName);
-  if (existing) {
-    if (coins > existing.score) {
+  if (existing){
+    if (coins > existing.score){
       existing.score =coins;
       existing.ts =Date.now();
     }
   } 
-  else {
-    lb.push({ name: playerName || 'Player', score: coins, ts: Date.now() });
+  else{
+    lb.push({name: playerName || 'Player', score: coins, ts: Date.now() });
   }
 
   localStorage.setItem('leaderboard', JSON.stringify(lb));
@@ -197,7 +244,7 @@ function endGame(win) {
 
 
 
-function render() {
+function render(){
   
   const cameraX =Math.min(
     Math.max(player.x - VIEWPORT_WIDTH / 2, 0),
@@ -212,7 +259,7 @@ function render() {
 }
 
 
-function tick() {
+function tick(){
   if (gameEnded) return;
   applyPhysics();
   updateCoins();
@@ -227,7 +274,7 @@ function tick() {
 }
 
 
-function askName() {
+function askName(){
   const overlay =document.createElement('div');
   overlay.style.cssText =`
     position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
@@ -245,22 +292,24 @@ function askName() {
   const input =overlay.querySelector('#nameInput');
   const btn =overlay.querySelector('#startBtn');
 
-  const start =() => {
+  const start =() =>{
     playerName =(input.value || 'Player').trim();
     localStorage.setItem('currentPlayerName', playerName);
     overlay.remove();
+    setupTouchControls();
     tick();
   };
   btn.onclick =start;
-  input.onkeydown =e => { if (e.key ==='Enter') start(); };
+  input.onkeydown =e =>{if (e.key ==='Enter') start(); };
   input.focus();
 }
 
 
-(function init() {
+(function init(){
   initGoombas();
   coinCountEl.textContent ='0';
   askName();
 })();
+
 
 

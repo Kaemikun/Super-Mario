@@ -1,49 +1,51 @@
 /* just a plus point the most difficult thing in this project was finding the pictures and removing the bg T-T */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; }
-body {
+*{ box-sizing: border-box; margin: 0; padding: 0; }
+html, body{height: 100%; }
+body{
   background: #6ea1ff;
-  color: #1a1a1a;
+  color:#1a1a1a;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   overflow: hidden;
 }
 
 
-.nav {
+.nav{
   height: 64px;
-  display: flex;
+  display:flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
   background: linear-gradient(180deg, #1e2c5e, #122050);
   color: #fff;
   position: sticky; top: 0; z-index: 50;
+  
   box-shadow: 0 6px 20px rgba(0,0,0,.25);
 }
-.nav .brand { font-weight: 800; letter-spacing: .5px; font-size: 20px; }
-.nav .links a {
+.nav .brand{ font-weight: 800; letter-spacing: .5px; font-size: 20px; }
+.nav .links a{
   color: #cfe2ff; text-decoration: none; margin-left: 16px; padding: 8px 12px; border-radius: 10px;
   transition: background .2s ease;
 }
-.nav .links a:hover { background: rgba(255,255,255,.1); }
-.nav .links a.active { background: rgba(255,255,255,.18); color: #fff; }
+.nav .links a:hover{ background: rgba(255,255,255,.1); }
+.nav .links a.active{ background: rgba(255,255,255,.18); color: #fff; }
 
 
-.stage-wrap {
+.stage-wrap{
   max-width: 1100px; margin: 18px auto; padding: 0 16px 24px;
 }
 
 
-.hud {
+.hud{
   position: relative;
   height: 0;
   width: 100%;
+  
   display: flex;
   justify-content: center; 
   pointer-events: none; 
 }
 
-.hud .hud-item {
+.hud .hud-item{
   position: absolute;
   top: 12px; 
   left: 50%; 
@@ -63,9 +65,9 @@ body {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
-.coin-icon {
+.coin-icon{
   width: 22px;
-  height: 22px;
+  height:22px;
   display: inline-block;
   background: url('images/coin.png') center/cover no-repeat;
   image-rendering: pixelated;
@@ -73,7 +75,7 @@ body {
 
 
 
-.viewport {
+.viewport{
   position: relative;
   width: 980px; height: 540px;
   margin: 0 auto;
@@ -85,14 +87,14 @@ body {
 }
 
 
-.world {
+.world{
   position: absolute; left: 0; bottom: 0;
   width: 3200px; height: 100%;
   image-rendering: pixelated;
 }
 
 
-.pipe {
+.pipe{
   position: absolute;
   bottom: 80px; 
   width: 70px; 
@@ -103,24 +105,24 @@ body {
 
 
 
-.coin {
+.coin{
   position: absolute; width: 28px; height: 28px;
   background: url('images/coin.png') center/cover no-repeat;
   
   image-rendering: pixelated;
   animation: coinFloat 1s ease-in-out infinite alternate;
 }
-@keyframes coinFloat { to { transform: translateY(-6px); } }
+@keyframes coinFloat{ to{ transform: translateY(-6px); } }
 /* i added this just for the coins to float it took me a while to figure it out */
 
-.goomba {
+.goomba{
   position: absolute; bottom: 80px; width: 44px; height: 40px;
   background: url('images/goomba.png') center/cover no-repeat;
   image-rendering: pixelated;
 }
 
 
-.mario {
+.mario{
   position: absolute; bottom: 80px; left: 120px;
   width: 44px; height: 50px;
   background: url('images/mario.png') center/cover no-repeat;
@@ -128,7 +130,7 @@ body {
 }
 
 
-.flagpole {
+.flagpole{
   position: absolute;
   bottom: 80px;
   right: 100px; 
@@ -140,12 +142,26 @@ body {
 
 
 
-.castle {
+.castle{
   position: absolute; bottom: 80px; width: 170px; height: 160px;
   background: url('images/castle.png') center/contain no-repeat;
 }
 
 
-.hidden { display: none !important; } 
+.hidden{ display: none !important; } 
+
+/* i added this today cuz i thought of making it work even for tablets but not for phones cuz exp wont be good for tht small screen*/
+@media (max-width: 1024px){
+  .viewport{ width: 90%; height: auto; aspect-ratio: 16/9; }
+}
+
+@media (max-width: 768px){
+  .viewport{ width: 95%; height: auto; aspect-ratio: 16/9; }
+}
+
+@media (max-width: 480px){
+  .viewport{ width: 100%; height: auto; aspect-ratio: 16/9; border-width: 3px; }
+}
+
 
 
